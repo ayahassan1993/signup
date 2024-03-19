@@ -1,0 +1,40 @@
+<div class=" min-h-full flex justify-center items-center ">
+    <form class="bg-[#dfdfdf] max-w-screen-sm p-8 rounded" [formGroup]="signupForm">
+        <h1 class="text-4xl mb-7">Sign Up</h1>
+
+        <div class="flex justify-between space-x-4 mb-1">
+            <mat-form-field class="rounded overflow-hidden w-full">
+                <mat-label>First Name</mat-label>
+                <input formControlName="firstName" type="text" matInput placeholder="Enter Your First Name">
+                <mat-error *ngIf="signupForm.get('firstName')?.invalid && signupForm.get('firstName')?.touched">
+                    First Name is Required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="rounded overflow-hidden w-full">
+                <mat-label>Last Name</mat-label>
+                <input formControlName="lastName" type="text" matInput placeholder="Enter Your Last Name">
+                <mat-error *ngIf="signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched">
+                    Last Name is Required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="rounded overflow-hidden w-full">
+                <mat-label>Phone Number</mat-label>
+                <input formControlName="mobile" type="text" matInput [matAutocomplete]="autoGroup">
+                <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="onSelectPhone()">
+                    <mat-option *ngFor="let user of users" [value]="splitMobileNumber(user)">
+                        {{user.contactNo}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="signupForm.get('mobile')?.invalid && signupForm.get('mobile')?.touched">
+                    {{signupForm.get('mobile')?.hasError('pattern')?
+                    'Phone should be only numbers' : 'Phone is Required'}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <button (click)="signup()" [disabled]="signupForm.invalid"
+            class="rounded bg-[#58a99a] w-full py-3 text-white font-medium mt-7" mat-button>Sign
+            Up</button>
+    </form>
+</div>
